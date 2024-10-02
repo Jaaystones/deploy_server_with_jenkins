@@ -63,12 +63,12 @@ resource "aws_instance" "public_instance" {
   key_name         = aws_key_pair.key.key_name
   subnet_id        = aws_subnet.public_subnet.id
   security_groups  = [aws_security_group.nginx_sg.id]
-  user_data        = file("install_nginx.sh")
+  user_data        = file("install_jenkins.sh")
 
   associate_public_ip_address = true 
 
   tags = {
-    Name = "public_instance"
+    Name = "nginx_public_instance_with_jenkins"
   }
 }
 
@@ -76,6 +76,14 @@ resource "aws_security_group" "nginx_sg" {
   name        = "nginx-sg"
   description = "Security group for Nginx"
   vpc_id      = aws_vpc.default.id
+
+   # Inbound rule for Jenkins (port 8080)
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   ingress {
     from_port   = 80
