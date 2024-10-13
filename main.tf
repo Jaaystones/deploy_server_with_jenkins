@@ -63,12 +63,12 @@ resource "aws_instance" "public_instance" {
   key_name         = aws_key_pair.key.key_name
   subnet_id        = aws_subnet.public_subnet.id
   security_groups  = [aws_security_group.nginx_sg.id]
-  user_data        = file("install_jenkins.sh")
+  # user_data        = file("install_jenkins.sh")
 
   associate_public_ip_address = true 
 
   tags = {
-    Name = "nginx_public_instance_with_jenkins"
+    Name = "jenkins_instance"
   }
 }
 
